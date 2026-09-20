@@ -1,17 +1,17 @@
 window.PIANO365 = {
   phases: [
     {id:1, name:"Фундамент", days:[1,28], description:"Клавіатура, посадка, пульс, перші мелодії"},
-    {id:2, name:"Акорди", days:[29,56], description:"Major/minor triads, обернення, педаль"},
-    {id:3, name:"Тональності", days:[57,91], description:"Гами, читання, ритм"},
-    {id:4, name:"Мінор і виразність", days:[92,119], description:"Мінор, фразування, баланс рук"},
-    {id:5, name:"Гармонія", days:[120,154], description:"Функції, бас, гармонізація, транспонування"},
-    {id:6, name:"Середній рівень", days:[155,182], description:"Арпеджіо, синкопи, незалежність рук"},
-    {id:7, name:"Cinematic prep", days:[183,210], description:"Остинато, широкі рухи, crescendo, витривалість"},
-    {id:8, name:"Interstellar project", days:[211,238], description:"Секції, збірка, кульмінація"},
-    {id:9, name:"Музикальність", days:[239,273], description:"Полірування, мотиви, імпровізація"},
-    {id:10, name:"Гра на слух", days:[274,301], description:"Тоніка, мелодія, бас, повний ear-arrangement"},
-    {id:11, name:"Performance", days:[302,329], description:"Пам'ять, recovery, сценічна стабільність"},
-    {id:12, name:"Фінальний сет", days:[330,365], description:"3–5 номерів, генеральний прогін, recital"}
+    {id:2, name:"Акорди", days:[29,56], description:"Major/minor triads, обернення, акомпанемент і педаль"},
+    {id:3, name:"Тональності й читання", days:[57,91], description:"C/G/F major, читання, восьмі та паузи"},
+    {id:4, name:"Мінор і виразність", days:[92,119], description:"Natural/harmonic minor, фразування, баланс рук"},
+    {id:5, name:"Гармонія й транспонування", days:[120,154], description:"Функції, бас, гармонізація, транспонування, D/Bb major"},
+    {id:6, name:"Середній рівень", days:[155,182], description:"Арпеджіо, незалежність рук, синкопа, піврічний іспит"},
+    {id:7, name:"Cinematic technique", days:[183,224], description:"Ostinato, wide arpeggios, crescendo, витривалість, стрибки, густа педаль"},
+    {id:8, name:"Dream Piece", days:[225,273], description:"Секції, повільна збірка, повний прогін, динаміка, полірування"},
+    {id:9, name:"Імпровізація й гармонія", days:[274,301], description:"Мотиви, I–V–vi–IV, 7th chords, ii–V–I, rubato"},
+    {id:10, name:"Гра на слух", days:[302,329], description:"Тоніка, мелодія, бас, акорди, власний ear-arrangement"},
+    {id:11, name:"Performance skills", days:[330,343], description:"Пам'ять, random starts, recovery після помилки"},
+    {id:12, name:"Фінальний сет", days:[344,365], description:"3–5 номерів, генеральний прогін і Final Piano Day"}
   ],
   milestones: [28,56,91,119,154,182,210,238,273,301,329,364,365],
   weeks: [
