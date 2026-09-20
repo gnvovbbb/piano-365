@@ -24,3 +24,13 @@ button,.ghost,.file-label{border:1px solid var(--line);background:#1a1a22;color:
 .data-actions{display:flex;gap:8px}.file-label input{display:none}.analytics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.metric-card{padding:20px}.metric-card span,.metric-card small{display:block;color:var(--muted)}.metric-card strong{font-size:42px;margin:8px 0;display:block}.progress-section{padding:22px;margin-top:18px}.phase-row{display:grid;grid-template-columns:170px 1fr 60px;gap:12px;align-items:center;margin:13px 0}.mini-track{height:9px;background:#24242d;border-radius:99px;overflow:hidden}.mini-fill{height:100%;background:var(--accent)}.activity-list{display:flex;flex-direction:column;gap:8px}.activity-item{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)}.toast{position:fixed;right:24px;bottom:24px;background:#22222b;border:1px solid #3b3b47;border-radius:14px;padding:12px 16px;opacity:0;transform:translateY(10px);pointer-events:none;transition:.2s;z-index:30}.toast.show{opacity:1;transform:none}.mobile-only{display:none}
 @media(max-width:1050px){.app-shell{grid-template-columns:1fr}.sidebar{position:fixed;left:-310px;width:290px;transition:.25s}.sidebar.open{left:0}.mobile-only{display:inline-flex}.lesson-grid,.tools-grid{grid-template-columns:1fr}.right-rail{display:grid;grid-template-columns:repeat(2,1fr)}.year-map{grid-template-columns:1fr}.analytics-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:680px){.topbar{padding:0 14px}.panel{padding:24px 14px 48px}.top-actions .ghost{padding:8px 9px;font-size:12px}.lesson-hero,.section-head{align-items:flex-start;flex-direction:column}.lesson-card{padding:20px 17px}.right-rail{grid-template-columns:1fr}.tools-grid{grid-template-columns:1fr}.analytics-grid{grid-template-columns:1fr 1fr}.search-box{min-width:0;width:100%}.phase-row{grid-template-columns:110px 1fr 44px}.lesson-hero h1{font-size:38px}}
+
+
+.interval-answers{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:16px}
+.interval-answers button{padding:10px 6px}
+.recording-clock{font-size:48px;font-weight:900;font-variant-numeric:tabular-nums;margin:18px 0 4px}
+.recorder-tool audio{width:100%;margin-top:16px}
+.download-link{display:inline-block;margin-top:12px;color:var(--accent);text-decoration:none;font-weight:700}
+.download-link:hover{text-decoration:underline}
+.recording-live{color:#ff8585}
+@media(max-width:680px){.interval-answers{grid-template-columns:repeat(3,1fr)}}
