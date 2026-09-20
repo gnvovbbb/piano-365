@@ -214,7 +214,8 @@
       const grid=block.querySelector(".days-grid");
       for(let d=start;d<=end;d++){
         const b=document.createElement("button"); b.className="day-cell"; b.textContent=d;
-        if(state.progress.completed?.[d]) b.classList.add("done");\n        if(META.milestones?.includes(d)){ b.classList.add("milestone"); b.title="Контрольна точка — День "+d; }
+        if(state.progress.completed?.[d]) b.classList.add("done");
+        if(META.milestones?.includes(d)){ b.classList.add("milestone"); b.title="Контрольна точка — День "+d; }
         if(d===state.day) b.classList.add("current");
         b.onclick=()=>{switchPanel("lesson");loadDay(d);};
         grid.appendChild(b);
