@@ -177,7 +177,13 @@ for path in ROOT.rglob("*.md"):
         if not resolved.exists():
             fail(f"Broken local link in {path.relative_to(ROOT)}: {target}")
 
-# 8) Web-app integration.
+# 8) Markdown hygiene.
+for path in ROOT.rglob("*.md"):
+    text = path.read_text(encoding="utf-8")
+    if "\\\\n" in text:
+        fail(f"Literal escaped newlines in Markdown: {path.relative_to(ROOT)}")
+
+# 9) Web-app integration.
 index = (ROOT / "index.html").read_text(encoding="utf-8")
 app = (ROOT / "app.js").read_text(encoding="utf-8")
 course_map = (ROOT / "course-map.js").read_text(encoding="utf-8")
@@ -205,7 +211,7 @@ if "MediaRecorder" not in app:
 if "AudioContext" not in app:
     fail("app.js no longer contains audio/ear-training support")
 
-# 9) Pacing sanity checks.
+# 10) Pacing sanity checks.
 # Heavy concepts must not migrate into the beginner month by accident.
 early = "\n".join(day_sections[d] for d in range(1, 29))
 if re.search(r"ii.?V.?I|major7|minor7|dominant 7|wide arpeggio|ostinato", early, re.I):
