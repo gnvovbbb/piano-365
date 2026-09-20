@@ -34,3 +34,5 @@ button,.ghost,.file-label{border:1px solid var(--line);background:#1a1a22;color:
 .download-link:hover{text-decoration:underline}
 .recording-live{color:#ff8585}
 @media(max-width:680px){.interval-answers{grid-template-columns:repeat(3,1fr)}}
+
+.day-cell.milestone{position:relative;border-color:#5b5330}.day-cell.milestone::after{content:"★";position:absolute;right:4px;top:2px;font-size:8px;color:#e9cf65}.day-cell.milestone.done{border-color:rgba(140,255,155,.35)}
