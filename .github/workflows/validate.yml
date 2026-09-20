@@ -32,6 +32,8 @@ jobs:
           echo "Daily lessons found: $count"
           test "$count" -eq 364
           grep -q "^# День 365" course/day-365.md
+      - name: Run full curriculum QA
+        run: python3 scripts/validate_course.py
       - name: Validate web references
         run: |
           grep -q "styles.css" index.html
