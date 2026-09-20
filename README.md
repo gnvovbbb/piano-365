@@ -30,6 +30,7 @@
 - [EAR_TRAINING.md](EAR_TRAINING.md) — система розвитку слуху.\n- [PLAYING_BY_EAR_PATH.md](PLAYING_BY_EAR_PATH.md) — повний шлях від напрямку нот до підбору пісні.\n- [INTERSTELLAR_PROJECT.md](INTERSTELLAR_PROJECT.md) — окремий великий Dream Piece-проєкт.
 - [TECHNIQUE.md](TECHNIQUE.md) — техніка, посадка, пальці, педаль, контроль напруження.
 - [REPERTOIRE.md](REPERTOIRE.md) — як обирати композиції та вести репертуар.
+- [REPERTOIRE_LADDER.md](REPERTOIRE_LADDER.md) — репертуарна драбина на 12 місяців.
 - [PROGRESS_TRACKER.md](PROGRESS_TRACKER.md) — контроль прогресу.\n- [ASSESSMENTS.md](ASSESSMENTS.md) — контрольні іспити й рубрики оцінювання.\n- [PRACTICE_JOURNAL.md](PRACTICE_JOURNAL.md) — короткий щоденний/щотижневий журнал.\n- [TROUBLESHOOTING.md](TROUBLESHOOTING.md) — що робити, коли щось системно не виходить.
 - [CHORDS_AND_KEYS.md](CHORDS_AND_KEYS.md) — шпаргалка акордів і тональностей.
 - [SIGHT_READING.md](SIGHT_READING.md) — система читання з листа.
