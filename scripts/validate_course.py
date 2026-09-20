@@ -211,6 +211,45 @@ if "MediaRecorder" not in app:
 if "AudioContext" not in app:
     fail("app.js no longer contains audio/ear-training support")
 
+# HTML <-> JavaScript integrity.
+html_ids = re.findall(r'id="([^"]+)"', index)
+duplicate_ids = [name for name, count in Counter(html_ids).items() if count > 1]
+if duplicate_ids:
+    fail(f"Duplicate HTML ids: {duplicate_ids}")
+
+js_id_refs = set(re.findall(r'\$\("([^"]+)"\)', app))
+missing_html_ids = sorted(js_id_refs - set(html_ids))
+if missing_html_ids:
+    fail(f"app.js references missing HTML ids: {missing_html_ids}")
+
+for panel in re.findall(r'data-panel="([^"]+)"', index):
+    if f"panel-{panel}" not in set(html_ids):
+        fail(f"Navigation points to missing panel: {panel}")
+
+# course-map.js phase coverage must be exactly 1..365.
+phase_pairs = [
+    (int(a), int(b))
+    for a, b in re.findall(r'days:\[(\d+),(\d+)\]', course_map)
+]
+if len(phase_pairs) != 12:
+    fail(f"Expected 12 course phases; found {len(phase_pairs)}")
+else:
+    covered = []
+    for start, end in phase_pairs:
+        if start > end:
+            fail(f"Invalid phase range {start}..{end}")
+        covered.extend(range(start, end + 1))
+    if covered != list(range(1, 366)):
+        fail("Course phases do not cover Days 1..365 exactly once and in order")
+
+week_block = re.search(r'weeks:\s*\[([\s\S]*?)\]\s*\n};', course_map)
+if not week_block:
+    fail("Could not parse week titles from course-map.js")
+else:
+    week_titles = re.findall(r'"(?:[^"\\]|\\.)*"', week_block.group(1))
+    if len(week_titles) != 52:
+        fail(f"Expected 52 week titles in course-map.js; found {len(week_titles)}")
+
 # 10) Pacing sanity checks.
 # Heavy concepts must not migrate into the beginner month by accident.
 early = "\n".join(day_sections[d] for d in range(1, 29))
