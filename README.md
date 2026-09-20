@@ -62,6 +62,7 @@
 - [PRACTICE_JOURNAL.md](PRACTICE_JOURNAL.md) — короткий journal.
 - [TROUBLESHOOTING.md](TROUBLESHOOTING.md) — що робити, коли щось системно не виходить.
 - [PERFORMANCE_CHECKLIST.md](PERFORMANCE_CHECKLIST.md) — підготовка до камери/аудиторії.
+- [QA_REPORT.md](QA_REPORT.md) — що перевірено автоматично й вручну.
 - [course/](course/) — 52 тижні, Дні 1–364 + окремий День 365.
 
 ## 12 фаз
