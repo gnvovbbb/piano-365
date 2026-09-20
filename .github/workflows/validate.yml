@@ -38,3 +38,9 @@ jobs:
           grep -q "course-map.js" index.html
           grep -q "app.js" index.html
           grep -q "manifest.webmanifest" index.html
+      - name: Reject escaped-newline artifacts
+        run: |
+          if grep -Fq '\\n' index.html; then
+            echo "Found literal escaped newline in index.html"
+            exit 1
+          fi
