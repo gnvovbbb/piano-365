@@ -214,7 +214,7 @@
       const grid=block.querySelector(".days-grid");
       for(let d=start;d<=end;d++){
         const b=document.createElement("button"); b.className="day-cell"; b.textContent=d;
-        if(state.progress.completed?.[d]) b.classList.add("done");
+        if(state.progress.completed?.[d]) b.classList.add("done");\n        if(META.milestones?.includes(d)){ b.classList.add("milestone"); b.title="Контрольна точка — День "+d; }
         if(d===state.day) b.classList.add("current");
         b.onclick=()=>{switchPanel("lesson");loadDay(d);};
         grid.appendChild(b);
@@ -225,7 +225,7 @@
       const block=document.createElement("div"); block.className="week-block";
       block.innerHTML="<h3>Фінал</h3><p>Final Piano Day</p><div class='days-grid'></div>";
       const b=document.createElement("button");b.className="day-cell";b.textContent="365";
-      if(state.progress.completed?.[365])b.classList.add("done");if(state.day===365)b.classList.add("current");
+      if(state.progress.completed?.[365])b.classList.add("done");b.classList.add("milestone");b.title="Фінальний іспит";if(state.day===365)b.classList.add("current");
       b.onclick=()=>{switchPanel("lesson");loadDay(365);};block.querySelector(".days-grid").appendChild(b);root.appendChild(block);
     }
   }
