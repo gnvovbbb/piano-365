@@ -190,7 +190,8 @@
       {ok:!!done[56],icon:"♬",name:"Chord Player",desc:"Пройти День 56"},
       {ok:!!done[182],icon:"½",name:"Half Year",desc:"Піврічний іспит"},
       {ok:!!done[273],icon:"✦",name:"Dream Piece",desc:"Performance Дня 273"},
-      {ok:!!done[301],icon:"◉",name:"Play by Ear",desc:"Ear Playing Check"},
+      {ok:!!done[329],icon:"◉",name:"Play by Ear",desc:"Ear Arrangement Дня 329"},
+      {ok:!!done[343],icon:"↻",name:"Recovery",desc:"Performance Stability Дня 343"},
       {ok:mins>=1000,icon:"⌛",name:"1000 хв",desc:"1000 хв зафіксованої практики"},
       {ok:!!done[365],icon:"365",name:"Piano 365",desc:"Фінальний recital"}
     ];
@@ -302,10 +303,15 @@
     state.timer.id=setInterval(()=>{
       state.timer.seconds--;updateTimer();
       if(state.timer.seconds<=0){
-        clearInterval(state.timer.id);state.timer.running=false;$("timerToggle").textContent="Готово";
-        const mins=Math.round(state.timer.initial/60);state.progress.minutes=(state.progress.minutes||0)+mins;
-        state.progress.activity ||= []; state.progress.activity.unshift({type:"practice",day:state.day,minutes:mins,at:Date.now()});
-        saveProgress();toast("Сесію завершено: +"+mins+" хв");
+        clearInterval(state.timer.id);state.timer.running=false;
+        const mins=Math.round(state.timer.initial/60);
+        state.progress.minutes=(state.progress.minutes||0)+mins;
+        state.progress.activity ||= [];
+        state.progress.activity.unshift({type:"practice",day:state.day,minutes:mins,at:Date.now()});
+        state.progress.activity=state.progress.activity.slice(0,100);
+        saveProgress();
+        toast("Сесію завершено: +"+mins+" хв");
+        setTimer(Math.round(state.timer.initial/60));
       }
     },1000);
   }
@@ -419,7 +425,8 @@
         if(state.recorder.url)URL.revokeObjectURL(state.recorder.url);
         state.recorder.url=URL.createObjectURL(blob);
         $("recordingAudio").src=state.recorder.url;$("recordingAudio").hidden=false;
-        $("recordDownload").href=state.recorder.url;$("recordDownload").download="piano-day-"+state.day+"-"+isoDay()+".webm";$("recordDownload").hidden=false;
+        const ext=type.includes("mp4")?"m4a":type.includes("ogg")?"ogg":"webm";
+        $("recordDownload").href=state.recorder.url;$("recordDownload").download="piano-day-"+state.day+"-"+isoDay()+"."+ext;$("recordDownload").hidden=false;
         $("recordClear").disabled=false;$("recordStatus").textContent="Готово. Прослухай запис критично, але без самобичування.";
         stream.getTracks().forEach(t=>t.stop());state.recorder.stream=null;state.recorder.startedAt=null;
       };
@@ -440,8 +447,23 @@
   }
   function importData(file){
     const r=new FileReader();r.onload=()=>{
-      try{const d=JSON.parse(r.result);if(!d.completed||!d.notes)throw new Error();state.progress=d;saveProgress();loadDay(currentCourseDay());toast("Прогрес імпортовано");}
-      catch{toast("Не вдалося імпортувати файл");}
+      try{
+        const d=JSON.parse(r.result);
+        if(!d || typeof d!=="object") throw new Error();
+        const clean={completed:{},notes:{},minutes:0,activity:[]};
+        for(const [key,value] of Object.entries(d.completed||{})){
+          const day=Number(key);
+          if(Number.isInteger(day)&&day>=1&&day<=365&&Number.isFinite(Number(value))) clean.completed[day]=Number(value);
+        }
+        for(const [key,value] of Object.entries(d.notes||{})){
+          const day=Number(key);
+          if(Number.isInteger(day)&&day>=1&&day<=365&&typeof value==="string") clean.notes[day]=value.slice(0,20000);
+        }
+        clean.minutes=Math.max(0,Math.min(1000000,Number(d.minutes)||0));
+        clean.activity=Array.isArray(d.activity)?d.activity.filter(a=>a&&Number.isInteger(Number(a.day))&&Number(a.day)>=1&&Number(a.day)<=365).slice(0,100):[];
+        state.progress=clean;
+        saveProgress();loadDay(currentCourseDay());toast("Прогрес імпортовано");
+      }catch{toast("Не вдалося імпортувати файл");}
     };r.readAsText(file);
   }
   function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200);}
