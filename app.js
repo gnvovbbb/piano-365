@@ -175,8 +175,31 @@
     $("metricMinutes").textContent=mins;
     $("metricStreak").textContent=st;
     $("metricNotes").textContent=Object.values(state.progress.notes||{}).filter(Boolean).length;
+    renderAchievements();
     renderPhaseProgress();
     renderActivity();
+  }
+
+  function renderAchievements(){
+    const root=$("achievements"); if(!root) return;
+    const done=state.progress.completed||{}, mins=state.progress.minutes||0;
+    const defs=[
+      {ok:!!done[1],icon:"♪",name:"Перший день",desc:"Завершити День 1"},
+      {ok:!!done[7],icon:"7",name:"Перший тиждень",desc:"Дійти до Дня 7"},
+      {ok:!!done[28],icon:"★",name:"Foundation",desc:"Пройти контроль Дня 28"},
+      {ok:!!done[56],icon:"♬",name:"Chord Player",desc:"Пройти День 56"},
+      {ok:!!done[182],icon:"½",name:"Half Year",desc:"Піврічний іспит"},
+      {ok:!!done[273],icon:"✦",name:"Dream Piece",desc:"Performance Дня 273"},
+      {ok:!!done[301],icon:"◉",name:"Play by Ear",desc:"Ear Playing Check"},
+      {ok:mins>=1000,icon:"⌛",name:"1000 хв",desc:"1000 хв зафіксованої практики"},
+      {ok:!!done[365],icon:"365",name:"Piano 365",desc:"Фінальний recital"}
+    ];
+    root.innerHTML="";
+    defs.forEach(a=>{
+      const el=document.createElement("div");el.className="achievement"+(a.ok?" unlocked":"");
+      el.innerHTML="<div class='achievement-icon'>"+a.icon+"</div><div><strong>"+a.name+"</strong><span>"+a.desc+"</span></div>";
+      root.appendChild(el);
+    });
   }
 
   function renderPhaseProgress() {
