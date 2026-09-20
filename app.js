@@ -260,6 +260,17 @@
     const m=Math.floor(state.timer.seconds/60),s=state.timer.seconds%60;
     $("timerDisplay").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
   }
+  function finishTimer(){
+    const elapsed=Math.max(0,state.timer.initial-state.timer.seconds);
+    clearInterval(state.timer.id);state.timer.running=false;
+    if(elapsed<60){toast("Сесія коротша за хвилину — не додаю її в статистику");setTimer(Math.round(state.timer.initial/60));return;}
+    const mins=Math.max(1,Math.round(elapsed/60));
+    state.progress.minutes=(state.progress.minutes||0)+mins;
+    state.progress.activity ||= [];state.progress.activity.unshift({type:"practice",day:state.day,minutes:mins,at:Date.now()});
+    state.progress.activity=state.progress.activity.slice(0,100);
+    saveProgress();toast("Збережено "+mins+" хв практики");
+    setTimer(Math.round(state.timer.initial/60));
+  }
   function toggleTimer(){
     if(state.timer.running){
       clearInterval(state.timer.id);state.timer.running=false;$("timerToggle").textContent="Продовжити";return;
@@ -385,7 +396,7 @@
         if(state.recorder.url)URL.revokeObjectURL(state.recorder.url);
         state.recorder.url=URL.createObjectURL(blob);
         $("recordingAudio").src=state.recorder.url;$("recordingAudio").hidden=false;
-        $("recordDownload").href=state.recorder.url;$("recordDownload").hidden=false;
+        $("recordDownload").href=state.recorder.url;$("recordDownload").download="piano-day-"+state.day+"-"+isoDay()+".webm";$("recordDownload").hidden=false;
         $("recordClear").disabled=false;$("recordStatus").textContent="Готово. Прослухай запис критично, але без самобичування.";
         stream.getTracks().forEach(t=>t.stop());state.recorder.stream=null;state.recorder.startedAt=null;
       };
@@ -424,7 +435,7 @@
     $("fontPlus").onclick=()=>{const v=Math.min(24,parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lesson-font"))+1);document.documentElement.style.setProperty("--lesson-font",v+"px");};
     $("dayNotes").addEventListener("input",e=>{state.progress.notes||={};state.progress.notes[state.day]=e.target.value;saveProgress();$("noteStatus").textContent="Збережено";});
     document.querySelectorAll(".preset-row button").forEach(b=>b.onclick=()=>setTimer(Number(b.dataset.minutes)));
-    $("timerToggle").onclick=toggleTimer;$("timerReset").onclick=()=>setTimer(Math.round(state.timer.initial/60));
+    $("timerToggle").onclick=toggleTimer;$("timerFinish").onclick=finishTimer;$("timerReset").onclick=()=>setTimer(Math.round(state.timer.initial/60));
     $("bpmSlider").oninput=e=>setBpm(e.target.value);$("bpmMinus").onclick=()=>setBpm(state.metro.bpm-5);$("bpmPlus").onclick=()=>setBpm(state.metro.bpm+5);$("metroToggle").onclick=startMetro;
     $("earPlay").onclick=newEar;document.querySelectorAll("[data-ear]").forEach(b=>b.onclick=()=>answerEar(b.dataset.ear));
     $("chordPlay").onclick=newChord;document.querySelectorAll("[data-chord]").forEach(b=>b.onclick=()=>answerChord(b.dataset.chord));
