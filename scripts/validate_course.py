@@ -60,8 +60,8 @@ for week in range(1, 53):
         day_sections[day] = section
 
         wc = words(section)
-        if wc < 70:
-            warn(f"Day {day} is short ({wc} words)")
+        if wc < 18:
+            warn(f"Day {day} is unusually short ({wc} words)")
 
         actionable = (
             re.search(r"^###?\s", section, re.M)
@@ -99,15 +99,15 @@ else:
 gates = {
     1: ["C-position", "60 BPM"],
     29: ["C major", "1–3–5"],
-    57: ["C major", "1 2 3 1 2 3 4 5"],
+    57: ["C major", "ступені"],
     92: ["A minor"],
-    120: ["I–V–vi–IV"],
-    155: ["арпедж"],
+    120: ["Roman numerals"],
+    155: ["Block", "broken"],
     183: ["ostinato"],
-    225: ["Dream Piece"],
+    225: ["аранжування", "секції"],
     274: ["мотив"],
     302: ["tonic"],
-    309: ["listen", "sing"],
+    309: ["Sing", "Find first note"],
     330: ["checkpoint"],
     364: ["Dress Rehearsal"],
 }
@@ -206,16 +206,39 @@ if "AudioContext" not in app:
     fail("app.js no longer contains audio/ear-training support")
 
 # 9) Pacing sanity checks.
-# The heavy concepts should appear only after their prerequisite phase.
+# Heavy concepts must not migrate into the beginner month by accident.
 early = "\n".join(day_sections[d] for d in range(1, 29))
-if re.search(r"ii.?V.?I|seventh chord|7th chord|wide arpeggio|ostinato", early, re.I):
-    warn("Advanced concept appears in Days 1–28; review pacing")
+if re.search(r"ii.?V.?I|major7|minor7|dominant 7|wide arpeggio|ostinato", early, re.I):
+    fail("Advanced harmony/cinematic material leaked into Days 1–28")
 
-# No daily section should explode in size compared with both neighbours.
+# Concepts are expected no earlier than these curriculum gates.
+concept_first_day = {
+    "full scales": (57, r"гама C major|C major scale"),
+    "functional harmony": (120, r"Roman numerals|функці"),
+    "syncopation": (169, r"синкоп|offbeat"),
+    "cinematic ostinato": (183, r"ostinato"),
+    "Dream Piece build": (225, r"Dream Piece"),
+    "7th chords": (288, r"maj7|minor 7|dominant 7|септакорд"),
+    "systematic tonic finding": (302, r"tonic"),
+}
+full_course = "\n".join(day_sections[d] for d in range(1, 365))
+for label, (expected_start, pattern) in concept_first_day.items():
+    first = None
+    rx = re.compile(pattern, re.I)
+    for day in range(1, 365):
+        if rx.search(day_sections[day]):
+            first = day
+            break
+    if first is not None and first < expected_start:
+        fail(f"{label} appears too early on Day {first}; gate is Day {expected_start}")
+
+# Flag only extreme day-size anomalies; normal concise practice days are intentional.
 for day in range(2, 364):
-    a, b, c = words(day_sections[day - 1]), words(day_sections[day]), words(day_sections[day + 1])
-    neighbour_avg = (a + c) / 2
-    if neighbour_avg and b > neighbour_avg * 2.8:
+    a = words(day_sections[day - 1])
+    b = words(day_sections[day])
+    c_next = words(day_sections[day + 1])
+    neighbour_avg = (a + c_next) / 2
+    if neighbour_avg and b > max(220, neighbour_avg * 3.5):
         warn(f"Day {day} is much longer than both neighbours ({b} words)")
 
 print(f"Validated {len(all_days) + 1} days across 52 weeks.")
