@@ -1,0 +1,40 @@
+name: Validate Piano 365
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check JavaScript syntax
+        run: |
+          node --check app.js
+          node --check course-map.js
+          node --check sw.js
+      - name: Validate course completeness
+        shell: bash
+        run: |
+          test -f index.html
+          test -f course/day-365.md
+          for i in $(seq -w 1 52); do
+            test -f "course/week-$i.md" || { echo "Missing week $i"; exit 1; }
+          done
+          count=$(grep -R "^## День " course/week-*.md | wc -l)
+          echo "Daily lessons found: $count"
+          test "$count" -eq 364
+          grep -q "^# День 365" course/day-365.md
+      - name: Validate web references
+        run: |
+          grep -q "styles.css" index.html
+          grep -q "course-map.js" index.html
+          grep -q "app.js" index.html
+          grep -q "manifest.webmanifest" index.html
