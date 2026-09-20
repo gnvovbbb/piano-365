@@ -30,7 +30,7 @@
 - [EAR_TRAINING.md](EAR_TRAINING.md) — система розвитку слуху.
 - [TECHNIQUE.md](TECHNIQUE.md) — техніка, посадка, пальці, педаль, контроль напруження.
 - [REPERTOIRE.md](REPERTOIRE.md) — як обирати композиції та вести репертуар.
-- [PROGRESS_TRACKER.md](PROGRESS_TRACKER.md) — контроль прогресу.
+- [PROGRESS_TRACKER.md](PROGRESS_TRACKER.md) — контроль прогресу.\n- [PRACTICE_JOURNAL.md](PRACTICE_JOURNAL.md) — короткий щоденний/щотижневий журнал.\n- [TROUBLESHOOTING.md](TROUBLESHOOTING.md) — що робити, коли щось системно не виходить.
 - [CHORDS_AND_KEYS.md](CHORDS_AND_KEYS.md) — шпаргалка акордів і тональностей.
 - [SIGHT_READING.md](SIGHT_READING.md) — система читання з листа.
 - [METRONOME_PROTOCOL.md](METRONOME_PROTOCOL.md) — як правильно піднімати темп.
