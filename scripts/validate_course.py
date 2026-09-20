@@ -194,7 +194,7 @@ for literal, rel in [
 if "\\n" in index:
     fail("index.html contains a literal escaped newline artifact")
 
-for day in (28, 56, 91, 119, 154, 182, 210, 238, 273, 301, 329, 364, 365):
+for day in (28, 56, 91, 119, 154, 182, 210, 238, 273, 301, 329, 343, 364, 365):
     if str(day) not in course_map:
         fail(f"course-map.js appears to have lost milestone {day}")
 
