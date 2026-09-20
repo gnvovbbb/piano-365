@@ -7,7 +7,10 @@
     progress: loadProgress(),
     timer: { seconds: 45 * 60, initial: 45 * 60, running: false, id: null, startedAt: null },
     metro: { bpm: 80, running: false, id: null, audio: null, beat: 0 },
-    ear: { answer: null, correct: 0, total: 0, audio: null }
+    ear: { answer: null, correct: 0, total: 0, audio: null },
+    chord: { answer: null, correct: 0, total: 0 },
+    interval: { answer: null, correct: 0, total: 0 },
+    recorder: { media: null, chunks: [], stream: null, url: null, startedAt: null, timer: null }
   };
 
   function loadProgress() {
@@ -191,7 +194,8 @@
     root.innerHTML = acts.length ? "" : "<p class='muted'>Ще немає активності.</p>";
     acts.forEach(a=>{
       const div=document.createElement("div"); div.className="activity-item";
-      div.innerHTML="<span>"+(a.type==="done"?"✓ Виконано":"↶ Скасовано")+" День "+a.day+"</span><span class='muted'>"+new Date(a.at).toLocaleString("uk-UA",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"})+"</span>";
+      const label = a.type==="done" ? "✓ Виконано День "+a.day : a.type==="practice" ? "◷ Практика "+(a.minutes||0)+" хв · День "+a.day : "↶ Скасовано День "+a.day;
+      div.innerHTML="<span>"+label+"</span><span class='muted'>"+new Date(a.at).toLocaleString("uk-UA",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"})+"</span>";
       root.appendChild(div);
     });
   }
@@ -318,6 +322,83 @@
     $("earScore").textContent=state.ear.correct+" / "+state.ear.total;state.ear.answer=null;
   }
 
+  function midiFreq(m){ return 440*Math.pow(2,(m-69)/12); }
+
+  function playChord(root, quality){
+    const ctx=earCtx();
+    const semis=quality==="major"?[0,4,7]:[0,3,7];
+    semis.forEach((s,i)=>{
+      const osc=ctx.createOscillator(),g=ctx.createGain();
+      osc.type="sine";osc.frequency.value=midiFreq(root+s);
+      g.gain.setValueAtTime(.0001,ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(.06,ctx.currentTime+.02);
+      g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.9);
+      osc.connect(g);g.connect(ctx.destination);osc.start(ctx.currentTime+i*.015);osc.stop(ctx.currentTime+1);
+    });
+  }
+  function newChord(){
+    const q=Math.random()<.5?"major":"minor";
+    const root=48+Math.floor(Math.random()*13);
+    state.chord.answer=q;playChord(root,q);$("chordStatus").textContent="Слухай забарвлення акорду…";
+  }
+  function answerChord(ans){
+    if(!state.chord.answer){toast("Спочатку натисни «Новий акорд»");return;}
+    state.chord.total++;const ok=ans===state.chord.answer;if(ok)state.chord.correct++;
+    $("chordStatus").textContent=ok?"Правильно ✓":"Правильна відповідь: "+(state.chord.answer==="major"?"Major":"Minor");
+    $("chordScore").textContent=state.chord.correct+" / "+state.chord.total;state.chord.answer=null;
+  }
+
+  function newInterval(){
+    const choices=[3,4,5,7,12], semi=choices[Math.floor(Math.random()*choices.length)], root=52+Math.floor(Math.random()*12);
+    state.interval.answer=semi;playTone(midiFreq(root),0);playTone(midiFreq(root+semi),.75);
+    $("intervalStatus").textContent="Слухай відстань між нотами…";
+  }
+  function answerInterval(semi){
+    if(state.interval.answer===null){toast("Спочатку натисни «Новий інтервал»");return;}
+    semi=Number(semi);state.interval.total++;const ok=semi===state.interval.answer;if(ok)state.interval.correct++;
+    const names={3:"m3",4:"M3",5:"P4",7:"P5",12:"P8"};
+    $("intervalStatus").textContent=ok?"Правильно ✓":"Правильна відповідь: "+names[state.interval.answer];
+    $("intervalScore").textContent=state.interval.correct+" / "+state.interval.total;state.interval.answer=null;
+  }
+
+  function updateRecordClock(){
+    if(!state.recorder.startedAt){$("recordingClock").textContent="00:00";return;}
+    const sec=Math.floor((Date.now()-state.recorder.startedAt)/1000),m=Math.floor(sec/60),s=sec%60;
+    $("recordingClock").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  }
+  async function toggleRecorder(){
+    if(state.recorder.media && state.recorder.media.state==="recording"){
+      state.recorder.media.stop();clearInterval(state.recorder.timer);
+      $("recordToggle").textContent="Почати запис";$("recordingClock").classList.remove("recording-live");
+      $("recordStatus").textContent="Обробляю запис…";return;
+    }
+    if(!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder){toast("Цей браузер не підтримує запис аудіо");return;}
+    try{
+      clearRecording();
+      const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+      const media=new MediaRecorder(stream);
+      state.recorder.stream=stream;state.recorder.media=media;state.recorder.chunks=[];state.recorder.startedAt=Date.now();
+      media.ondataavailable=e=>{if(e.data?.size)state.recorder.chunks.push(e.data);};
+      media.onstop=()=>{
+        const type=media.mimeType||"audio/webm",blob=new Blob(state.recorder.chunks,{type});
+        if(state.recorder.url)URL.revokeObjectURL(state.recorder.url);
+        state.recorder.url=URL.createObjectURL(blob);
+        $("recordingAudio").src=state.recorder.url;$("recordingAudio").hidden=false;
+        $("recordDownload").href=state.recorder.url;$("recordDownload").hidden=false;
+        $("recordClear").disabled=false;$("recordStatus").textContent="Готово. Прослухай запис критично, але без самобичування.";
+        stream.getTracks().forEach(t=>t.stop());state.recorder.stream=null;state.recorder.startedAt=null;
+      };
+      media.start(250);state.recorder.timer=setInterval(updateRecordClock,250);updateRecordClock();
+      $("recordToggle").textContent="Зупинити";$("recordingClock").classList.add("recording-live");$("recordStatus").textContent="Запис іде…";
+    }catch(e){$("recordStatus").textContent="Немає доступу до мікрофона або браузер його заблокував.";toast("Не вдалося отримати доступ до мікрофона");}
+  }
+  function clearRecording(){
+    if(state.recorder.media?.state==="recording")return;
+    if(state.recorder.url){URL.revokeObjectURL(state.recorder.url);state.recorder.url=null;}
+    $("recordingAudio").removeAttribute("src");$("recordingAudio").hidden=true;
+    $("recordDownload").hidden=true;$("recordClear").disabled=true;$("recordingClock").textContent="00:00";$("recordStatus").textContent="Мікрофон запитає дозвіл лише після натискання.";
+  }
+
   function exportData(){
     const blob=new Blob([JSON.stringify(state.progress,null,2)],{type:"application/json"});
     const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="piano365-progress.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
@@ -345,6 +426,9 @@
     $("timerToggle").onclick=toggleTimer;$("timerReset").onclick=()=>setTimer(Math.round(state.timer.initial/60));
     $("bpmSlider").oninput=e=>setBpm(e.target.value);$("bpmMinus").onclick=()=>setBpm(state.metro.bpm-5);$("bpmPlus").onclick=()=>setBpm(state.metro.bpm+5);$("metroToggle").onclick=startMetro;
     $("earPlay").onclick=newEar;document.querySelectorAll("[data-ear]").forEach(b=>b.onclick=()=>answerEar(b.dataset.ear));
+    $("chordPlay").onclick=newChord;document.querySelectorAll("[data-chord]").forEach(b=>b.onclick=()=>answerChord(b.dataset.chord));
+    $("intervalPlay").onclick=newInterval;document.querySelectorAll("[data-interval]").forEach(b=>b.onclick=()=>answerInterval(b.dataset.interval));
+    $("recordToggle").onclick=toggleRecorder;$("recordClear").onclick=clearRecording;
     $("courseSearch").oninput=e=>{const active=$("phaseFilters").querySelector(".active")?.dataset.phase||"all";renderYearMap(active,e.target.value);};
     $("exportBtn").onclick=exportData;$("importInput").onchange=e=>{if(e.target.files[0])importData(e.target.files[0]);};
     if("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(()=>{});
