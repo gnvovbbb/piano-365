@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0b0f" />
+  <meta name="description" content="Piano 365 — інтерактивний 365-денний курс фортепіано." />
+  <title>Piano 365</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./assets/piano.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-row">
+        <div class="brand-icon">P</div>
+        <div>
+          <div class="brand">Piano 365</div>
+          <div class="muted tiny">твій рік за клавішами</div>
+        </div>
+      </div>
+
+      <div class="progress-card">
+        <div class="progress-top">
+          <span>Прогрес</span>
+          <strong id="progressLabel">0 / 365</strong>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="stats-row">
+          <div><strong id="streakValue">0</strong><span>streak</span></div>
+          <div><strong id="minutesValue">0</strong><span>хв</span></div>
+          <div><strong id="percentValue">0%</strong><span>курс</span></div>
+        </div>
+      </div>
+
+      <button class="primary wide" id="continueBtn">Продовжити курс</button>
+
+      <div class="sidebar-section">
+        <div class="section-label">Навігація</div>
+        <button class="nav-btn active" data-panel="lesson">Урок</button>
+        <button class="nav-btn" data-panel="year">Карта року</button>
+        <button class="nav-btn" data-panel="tools">Інструменти</button>
+        <button class="nav-btn" data-panel="progress">Статистика</button>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-label">Перейти до дня</div>
+        <div class="jump-row">
+          <input id="jumpInput" inputmode="numeric" min="1" max="365" placeholder="1–365" />
+          <button id="jumpBtn" aria-label="Перейти">→</button>
+        </div>
+      </div>
+
+      <div class="sidebar-section footer-links">
+        <a href="./COURSE_INDEX.md">Markdown-курс</a>
+        <a href="./ROADMAP.md">Roadmap</a>
+        <a href="https://github.com/gnvovbbb/piano-365" rel="noreferrer">GitHub</a>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-btn mobile-only" id="menuBtn" aria-label="Меню">☰</button>
+        <div class="top-context">
+          <span class="eyebrow" id="phaseLabel">Фаза 1</span>
+          <strong id="weekLabel">Тиждень 1</strong>
+        </div>
+        <div class="top-actions">
+          <button class="ghost" id="prevDayBtn">← День</button>
+          <button class="ghost" id="nextDayBtn">День →</button>
+        </div>
+      </header>
+
+      <section class="panel active" id="panel-lesson">
+        <div class="lesson-hero">
+          <div>
+            <div class="day-kicker" id="dayKicker">День 1 із 365</div>
+            <h1 id="lessonTitle">Завантаження уроку…</h1>
+            <p class="lesson-subtitle" id="lessonSubtitle">Підготовка щоденного заняття.</p>
+          </div>
+          <button class="complete-btn" id="completeBtn">
+            <span class="check-circle">✓</span>
+            <span id="completeText">Позначити виконаним</span>
+          </button>
+        </div>
+
+        <div class="lesson-grid">
+          <article class="lesson-card">
+            <div class="card-toolbar">
+              <span class="pill" id="lessonDuration">45–60 хв</span>
+              <div class="font-controls">
+                <button id="fontMinus">A−</button>
+                <button id="fontPlus">A+</button>
+              </div>
+            </div>
+            <div class="markdown lesson-content" id="lessonContent"></div>
+          </article>
+
+          <aside class="right-rail">
+            <section class="tool-card timer-card">
+              <div class="tool-heading">
+                <div>
+                  <span class="eyebrow">Practice timer</span>
+                  <h3>Заняття</h3>
+                </div>
+                <span class="timer-display" id="timerDisplay">45:00</span>
+              </div>
+              <div class="preset-row">
+                <button data-minutes="20">20</button>
+                <button class="active" data-minutes="45">45</button>
+                <button data-minutes="60">60</button>
+              </div>
+              <div class="tool-actions">
+                <button class="primary" id="timerToggle">Старт</button>
+                <button class="ghost" id="timerReset">Скинути</button>
+              </div>
+            </section>
+
+            <section class="tool-card">
+              <div class="tool-heading">
+                <div>
+                  <span class="eyebrow">Нотатки</span>
+                  <h3>Що виправити завтра?</h3>
+                </div>
+              </div>
+              <textarea id="dayNotes" rows="7" placeholder="Наприклад: у переході B→C ліва рука прискорюється…"></textarea>
+              <div class="save-status" id="noteStatus">Зберігається автоматично</div>
+            </section>
+
+            <section class="tool-card">
+              <div class="tool-heading">
+                <div>
+                  <span class="eyebrow">Тиждень</span>
+                  <h3 id="weekTitleRail">Фокус тижня</h3>
+                </div>
+              </div>
+              <p class="muted" id="weekFocusRail"></p>
+              <a class="text-link" id="weekMdLink" href="#">Відкрити весь тиждень →</a>
+            </section>
+          </aside>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-year">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">365 днів</span>
+            <h2>Карта року</h2>
+            <p class="muted">Натисни на будь-який день. Зелені дні вже виконані.</p>
+          </div>
+          <div class="search-box">
+            <input id="courseSearch" placeholder="День, тиждень або тема…" />
+          </div>
+        </div>
+        <div id="phaseFilters" class="phase-filters"></div>
+        <div id="yearMap" class="year-map"></div>
+      </section>
+
+      <section class="panel" id="panel-tools">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Practice lab</span>
+            <h2>Інструменти</h2>
+            <p class="muted">Метроном, слухові вправи й швидкі посилання.</p>
+          </div>
+        </div>
+
+        <div class="tools-grid">
+          <section class="big-tool metronome">
+            <span class="eyebrow">Metronome</span>
+            <div class="bpm-value"><span id="bpmValue">80</span><small>BPM</small></div>
+            <input id="bpmSlider" type="range" min="40" max="220" value="80" />
+            <div class="bpm-row">
+              <button id="bpmMinus">−5</button>
+              <button class="primary" id="metroToggle">Старт</button>
+              <button id="bpmPlus">+5</button>
+            </div>
+            <div class="beat-lights" id="beatLights">
+              <span></span><span></span><span></span><span></span>
+            </div>
+          </section>
+
+          <section class="big-tool">
+            <span class="eyebrow">Ear trainer</span>
+            <h3>Напрямок двох нот</h3>
+            <p class="muted">Послухай дві ноти й визнач: друга вище, нижче чи така сама.</p>
+            <div class="ear-status" id="earStatus">Натисни «Нова вправа».</div>
+            <button class="primary wide" id="earPlay">Нова вправа</button>
+            <div class="ear-answers">
+              <button data-ear="down">Нижче</button>
+              <button data-ear="same">Та сама</button>
+              <button data-ear="up">Вище</button>
+            </div>
+            <div class="score" id="earScore">0 / 0</div>
+          </section>
+
+          <section class="big-tool">
+            <span class="eyebrow">Шпаргалки</span>
+            <h3>Довідники курсу</h3>
+            <div class="resource-list">
+              <a href="./CHORDS_AND_KEYS.md">Акорди й тональності</a>
+              <a href="./EAR_TRAINING.md">Система розвитку слуху</a>
+              <a href="./TECHNIQUE.md">Техніка та посадка</a>
+              <a href="./SIGHT_READING.md">Читання з листа</a>
+              <a href="./METRONOME_PROTOCOL.md">Протокол метронома</a>
+              <a href="./PERFORMANCE_CHECKLIST.md">Performance checklist</a>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-progress">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Аналітика</span>
+            <h2>Твій прогрес</h2>
+            <p class="muted">Дані зберігаються лише в цьому браузері.</p>
+          </div>
+          <div class="data-actions">
+            <button class="ghost" id="exportBtn">Експорт</button>
+            <label class="ghost file-label">Імпорт<input id="importInput" type="file" accept=".json,application/json" /></label>
+          </div>
+        </div>
+
+        <div class="analytics-grid">
+          <div class="metric-card"><span>Виконано</span><strong id="metricDone">0</strong><small>днів</small></div>
+          <div class="metric-card"><span>Практика</span><strong id="metricMinutes">0</strong><small>хвилин</small></div>
+          <div class="metric-card"><span>Серія</span><strong id="metricStreak">0</strong><small>днів</small></div>
+          <div class="metric-card"><span>Нотатки</span><strong id="metricNotes">0</strong><small>днів</small></div>
+        </div>
+
+        <section class="progress-section">
+          <h3>12 фаз</h3>
+          <div id="phaseProgress"></div>
+        </section>
+
+        <section class="progress-section">
+          <h3>Остання активність</h3>
+          <div id="activityList" class="activity-list"></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="./course-map.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
