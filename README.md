@@ -24,12 +24,17 @@
 
 ## Структура
 
+- [COURSE_INDEX.md](COURSE_INDEX.md) — головна навігація по всіх 365 днях.
 - [ROADMAP.md](ROADMAP.md) — карта всього року.
 - [PRACTICE_SYSTEM.md](PRACTICE_SYSTEM.md) — як займатися без марної механічної гри.
 - [EAR_TRAINING.md](EAR_TRAINING.md) — система розвитку слуху.
 - [TECHNIQUE.md](TECHNIQUE.md) — техніка, посадка, пальці, педаль, контроль напруження.
 - [REPERTOIRE.md](REPERTOIRE.md) — як обирати композиції та вести репертуар.
 - [PROGRESS_TRACKER.md](PROGRESS_TRACKER.md) — контроль прогресу.
+- [CHORDS_AND_KEYS.md](CHORDS_AND_KEYS.md) — шпаргалка акордів і тональностей.
+- [SIGHT_READING.md](SIGHT_READING.md) — система читання з листа.
+- [METRONOME_PROTOCOL.md](METRONOME_PROTOCOL.md) — як правильно піднімати темп.
+- [PERFORMANCE_CHECKLIST.md](PERFORMANCE_CHECKLIST.md) — підготовка до гри на камеру/перед людьми.
 - [course/](course/) — 52 тижні + фінальний День 365.
 
 ## Головне правило
