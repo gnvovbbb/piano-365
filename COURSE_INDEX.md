@@ -57,12 +57,17 @@
 - [День 365 — Final Piano Day](course/day-365.md)
 
 ## Контрольні точки
-- День 28 — перший повний мінітвір.
-- День 56 — major/minor triads + педаль.
-- День 91 — гами C/G/F, читання й ритм.
-- День 182 — піврічний іспит.
-- День 238 — перший Dream Piece checkpoint: освоєний великий блок/ранній draft без рестартів.
-- День 273 — камерний Dream Piece performance.
-- День 329 — повний Ear Piece arrangement без готових нот.
-- День 343 — recovery/performance-stability check.\n- День 364 — генеральний прогін.
-- День 365 — фінальний recital.
+- День 28 — Foundation Check.
+- День 56 — Chords & Pedal Check.
+- День 91 — Keys, Reading & Rhythm Check.
+- День 119 — Expression Check.
+- День 154 — Harmony Check.
+- День 182 — Half-Year Exam.
+- День 210 — Cinematic Technique Check.
+- День 238 — ранній Dream Piece checkpoint: великий освоєний блок / A→B.
+- День 273 — камерний Dream Piece Performance.
+- День 301 — Timing & Ear Bridge Check.
+- День 329 — Ear Arrangement Check без готової партитури.
+- День 343 — Performance Stability & Recovery Check.
+- День 364 — Dress Rehearsal.
+- День 365 — Final Piano Day.
