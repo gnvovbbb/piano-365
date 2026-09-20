@@ -61,8 +61,8 @@
 - День 56 — major/minor triads + педаль.
 - День 91 — гами C/G/F, читання й ритм.
 - День 182 — піврічний іспит.
-- День 238 — чорновий Dream Piece.
-- День 273 — polished Interstellar-level performance.
-- День 329 — Ear Piece + performance recovery.
-- День 364 — генеральний прогін.
+- День 238 — перший Dream Piece checkpoint: освоєний великий блок/ранній draft без рестартів.
+- День 273 — камерний Dream Piece performance.
+- День 329 — повний Ear Piece arrangement без готових нот.
+- День 343 — recovery/performance-stability check.\n- День 364 — генеральний прогін.
 - День 365 — фінальний recital.
