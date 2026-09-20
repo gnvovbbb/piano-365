@@ -59,15 +59,35 @@
 - vii° Adim
 
 ## A minor
-Natural: A B C D E F G
+Natural: A B C D E F G  
 Harmonic: A B C D E F G#
+
+### Практичне ядро
+- i = Am
+- iv = Dm
+- V = E major у harmonic minor
+- vii° = G#dim у harmonic minor
+
+### Якщо будувати всі тризвуки
+**A natural minor:**
 - i Am
 - ii° Bdim
 - III C
 - iv Dm
+- v Em
+- VI F
+- VII G
+
+**A harmonic minor:**
+- i Am
+- ii° Bdim
+- III+ Caug
+- iv Dm
 - V E
 - VI F
 - vii° G#dim
+
+Для першого року найважливіше чути й грати **i–iv–V–i**, а не зубрити всі сім акордів harmonic minor.
 
 ## Прогресії, які треба знати без роздумів
 - I–IV–V–I
