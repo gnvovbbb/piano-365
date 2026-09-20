@@ -27,7 +27,7 @@
 - [COURSE_INDEX.md](COURSE_INDEX.md) — головна навігація по всіх 365 днях.
 - [ROADMAP.md](ROADMAP.md) — карта всього року.
 - [PRACTICE_SYSTEM.md](PRACTICE_SYSTEM.md) — як займатися без марної механічної гри.
-- [EAR_TRAINING.md](EAR_TRAINING.md) — система розвитку слуху.
+- [EAR_TRAINING.md](EAR_TRAINING.md) — система розвитку слуху.\n- [PLAYING_BY_EAR_PATH.md](PLAYING_BY_EAR_PATH.md) — повний шлях від напрямку нот до підбору пісні.\n- [INTERSTELLAR_PROJECT.md](INTERSTELLAR_PROJECT.md) — окремий великий Dream Piece-проєкт.
 - [TECHNIQUE.md](TECHNIQUE.md) — техніка, посадка, пальці, педаль, контроль напруження.
 - [REPERTOIRE.md](REPERTOIRE.md) — як обирати композиції та вести репертуар.
 - [PROGRESS_TRACKER.md](PROGRESS_TRACKER.md) — контроль прогресу.\n- [ASSESSMENTS.md](ASSESSMENTS.md) — контрольні іспити й рубрики оцінювання.\n- [PRACTICE_JOURNAL.md](PRACTICE_JOURNAL.md) — короткий щоденний/щотижневий журнал.\n- [TROUBLESHOOTING.md](TROUBLESHOOTING.md) — що робити, коли щось системно не виходить.
