@@ -196,10 +196,56 @@
           </section>
 
           <section class="big-tool">
+            <span class="eyebrow">Ear Lab · акорди</span>
+            <h3>Major чи minor?</h3>
+            <p class="muted">Послухай тризвук і визнач його забарвлення. Цю вправу особливо корисно підключати з 5–6 тижня.</p>
+            <div class="ear-status" id="chordStatus">Натисни «Новий акорд».</div>
+            <button class="primary wide" id="chordPlay">Новий акорд</button>
+            <div class="ear-answers">
+              <button data-chord="major">Major</button>
+              <button data-chord="minor">Minor</button>
+            </div>
+            <div class="score" id="chordScore">0 / 0</div>
+          </section>
+
+          <section class="big-tool">
+            <span class="eyebrow">Ear Lab · інтервали</span>
+            <h3>Яка відстань між нотами?</h3>
+            <p class="muted">Друга нота звучить після першої. Почни з терцій, кварти й квінти; пізніше додай секунди та октаву.</p>
+            <div class="ear-status" id="intervalStatus">Натисни «Новий інтервал».</div>
+            <button class="primary wide" id="intervalPlay">Новий інтервал</button>
+            <div class="interval-answers">
+              <button data-interval="3">m3</button>
+              <button data-interval="4">M3</button>
+              <button data-interval="5">P4</button>
+              <button data-interval="7">P5</button>
+              <button data-interval="12">P8</button>
+            </div>
+            <div class="score" id="intervalScore">0 / 0</div>
+          </section>
+
+          <section class="big-tool recorder-tool">
+            <span class="eyebrow">Practice recorder</span>
+            <h3>Запиши своє піаніно</h3>
+            <p class="muted">Запис лишається у браузері. Після зупинки можеш одразу переслухати або зберегти файл.</p>
+            <div class="recording-clock" id="recordingClock">00:00</div>
+            <div class="tool-actions">
+              <button class="primary" id="recordToggle">Почати запис</button>
+              <button class="ghost" id="recordClear" disabled>Очистити</button>
+            </div>
+            <audio id="recordingAudio" controls hidden></audio>
+            <a id="recordDownload" class="download-link" href="#" download="piano-practice.webm" hidden>Зберегти запис ↓</a>
+            <div class="save-status" id="recordStatus">Мікрофон запитає дозвіл лише після натискання.</div>
+          </section>
+
+          <section class="big-tool">
             <span class="eyebrow">Шпаргалки</span>
             <h3>Довідники курсу</h3>
             <div class="resource-list">
-              <a href="./START_HERE.md">Почати правильно</a>\n              <a href="./PRACTICE_JOURNAL.md">Журнал практики</a>\n              <a href="./TROUBLESHOOTING.md">Коли не виходить</a>\n              <a href="./CHORDS_AND_KEYS.md">Акорди й тональності</a>
+              <a href="./START_HERE.md">Почати правильно</a>
+              <a href="./PRACTICE_JOURNAL.md">Журнал практики</a>
+              <a href="./TROUBLESHOOTING.md">Коли не виходить</a>
+              <a href="./CHORDS_AND_KEYS.md">Акорди й тональності</a>
               <a href="./EAR_TRAINING.md">Система розвитку слуху</a>
               <a href="./TECHNIQUE.md">Техніка та посадка</a>
               <a href="./SIGHT_READING.md">Читання з листа</a>
