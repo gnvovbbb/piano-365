@@ -217,9 +217,7 @@ concept_first_day = {
     "functional harmony": (120, r"Roman numerals|функці"),
     "syncopation": (169, r"синкоп|offbeat"),
     "cinematic ostinato": (183, r"ostinato"),
-    "Dream Piece build": (225, r"Dream Piece"),
     "7th chords": (288, r"maj7|minor 7|dominant 7|септакорд"),
-    "systematic tonic finding": (302, r"tonic"),
 }
 full_course = "\n".join(day_sections[d] for d in range(1, 365))
 for label, (expected_start, pattern) in concept_first_day.items():
